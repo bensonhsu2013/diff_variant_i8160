@@ -106,7 +106,6 @@ static void shm_mod_reset_work(struct work_struct *work)
 	if (boot_state != BOOT_DONE) {
 		dev_info(shm_dev->dev, "Modem in reset state\n");
 		spin_unlock_irqrestore(&boot_lock, flags);
-		atomic_set(&mod_stuck, 0);
 		return;
 	}
 	boot_state = BOOT_UNKNOWN;
@@ -1000,8 +999,6 @@ int shrm_protocol_init(struct shrm_dev *shrm,
 		dev_err(shm_dev->dev, "netlink socket creation failed\n");
 		goto drop;
 	}
-
-	netlink_set_nonroot(NETLINK_SHRM, NL_NONROOT_RECV);
 #endif
 
 	return 0;

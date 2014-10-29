@@ -24,7 +24,7 @@
 #include <linux/sysdev.h>
 #include <linux/wakelock.h>
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 #include <mach/sec_param.h>
 #endif
 
@@ -150,7 +150,7 @@ static void alarm_enqueue_locked(struct alarm *alarm)
 	rb_insert_color(&alarm->node, &base->alarms);
 }
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 /* 0|1234|56|78|90|12
    1|2010|01|01|00|00
    en yyyy mm dd hh mm */
@@ -501,7 +501,7 @@ static int alarm_suspend(struct platform_device *pdev, pm_message_t state)
 
 		rtc_time_to_tm(rtc_alarm_time, &rtc_alarm.time);
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 		rtc_tm_to_time(&rtc_current_rtc_time, &rtc_current_time);
 		pr_info("%s, [%d] %d/%d/%d %d:%d:%d\n", __func__,
 			rtc_alarm.enabled, rtc_alarm.time.tm_year-100,
@@ -558,7 +558,7 @@ static int alarm_resume(struct platform_device *pdev)
 	/* Clear alarm */
 	alarm.enabled = 0;
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 	if (alarm_en_exit) {
 		pr_info("%s, [%d] %d/%d/%d %d:%d:%d\n", __func__,
 			alarm.enabled, alarm.time.tm_year-100,

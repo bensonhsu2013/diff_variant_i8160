@@ -226,7 +226,7 @@ __acquires(ep->musb->lock)
 				request->status);
 	/* check the validation of function */
 	if (req->request.complete)
-	req->request.complete(&req->ep->end_point, &req->request);
+		req->request.complete(&req->ep->end_point, &req->request);
 	spin_lock(&musb->lock);
 	ep->busy = busy;
 }

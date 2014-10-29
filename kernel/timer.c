@@ -746,15 +746,16 @@ unsigned long apply_slack(struct timer_list *timer, unsigned long expires)
 	unsigned long expires_limit, mask;
 	int bit;
 
+	expires_limit = expires;
+
 	if (timer->slack >= 0) {
 		expires_limit = expires + timer->slack;
 	} else {
-		long delta = expires - jiffies;
+		unsigned long now = jiffies;
 
-		if (delta < 256)
-			return expires;
-
-		expires_limit = expires + delta / 256;
+		/* No slack, if already expired else auto slack 0.4% */
+		if (time_after(expires, now))
+			expires_limit = expires + (expires - now)/256;
 	}
 	mask = expires ^ expires_limit;
 	if (mask == 0)
@@ -791,8 +792,6 @@ unsigned long apply_slack(struct timer_list *timer, unsigned long expires)
  */
 int mod_timer(struct timer_list *timer, unsigned long expires)
 {
-	expires = apply_slack(timer, expires);
-
 	/*
 	 * This is a common optimization triggered by the
 	 * networking code - if the timer is re-modified
@@ -800,6 +799,8 @@ int mod_timer(struct timer_list *timer, unsigned long expires)
 	 */
 	if (timer_pending(timer) && timer->expires == expires)
 		return 1;
+
+	expires = apply_slack(timer, expires);
 
 	return __mod_timer(timer, expires, false, TIMER_NOT_PINNED);
 }
@@ -1233,7 +1234,7 @@ static unsigned long cmp_next_hrtimer_event(unsigned long now,
  */
 unsigned long get_next_timer_interrupt(unsigned long now)
 {
-	struct tvec_base *base = __this_cpu_read(tvec_bases);
+	struct tvec_base *base = __get_cpu_var(tvec_bases);
 	unsigned long expires;
 
 	/*
@@ -1279,7 +1280,7 @@ void update_process_times(int user_tick)
  */
 static void run_timer_softirq(struct softirq_action *h)
 {
-	struct tvec_base *base = __this_cpu_read(tvec_bases);
+	struct tvec_base *base = __get_cpu_var(tvec_bases);
 
 	hrtimer_run_pending();
 

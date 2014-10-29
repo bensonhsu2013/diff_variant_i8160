@@ -31,9 +31,6 @@
 /* L1 & L2 cache management */
 #include <asm/cacheflush.h>
 
-#include <mach/sec_param.h>
-#include <mach/sec_common.h>
-
 void ux500_clean_l2_cache_all(void);
 
 /* prcmu register dump */
@@ -384,10 +381,6 @@ NORET_TYPE void panic(const char * fmt, ...)
         static char buf[1024];
         va_list args;
         long i;
-		int flag = KERNEL_PANIC_FLAG_ON;
-
-		if (sec_set_param_value)
-			sec_set_param_value(__KERNEL_PANIC_FLAG, &flag);
 
         /*
          * It's possible to come here directly from a panic-assertion and

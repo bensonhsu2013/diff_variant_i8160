@@ -24,7 +24,6 @@
 #include <mach/shrm.h>
 
 #include <linux/cdev.h>
-#include <linux/wakelock.h>
 
 #define ISA_DEVICES 8
 
@@ -133,8 +132,6 @@ struct shrm_dev {
 	struct work_struct shm_ca_sleep_req;
 	struct work_struct shm_ac_sleep_req;
 	struct work_struct shm_mod_reset_req;
-	struct wake_lock rpc_wake_lock;
-	struct wake_lock sec_wake_lock;
 };
 
 /**

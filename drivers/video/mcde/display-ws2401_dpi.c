@@ -477,27 +477,26 @@ static const u8 DCS_CMD_SEQ_WS2401_DISPLAY_OFF[] = {
 	DCS_CMD_SEQ_END
 };
 
-static const unsigned short Codina_ktd259CurrentRatioTable[2][33] = {
-{
-0,	/* (0/32)		KTD259_BACKLIGHT_OFF */
-30,	/* (1/32)		KTD259_MIN_CURRENT_RATIO */
-39,	/* (2/32) */
-48,	/* (3/32) */
-58,	/* (4/32) */
-67,	/* (5/32) */
-76,	/* (6/32) */
-85,	/* (7/32) */
-94,	/* (8/32) */
+static const unsigned short Codina_ktd259CurrentRatioTable[] = {
+0,		/* (0/32)		KTD259_BACKLIGHT_OFF */
+30,		/* (1/32)		KTD259_MIN_CURRENT_RATIO */
+39,		/* (2/32) */
+48,		/* (3/32) */
+58,		/* (4/32) */
+67,		/* (5/32) */
+76,		/* (6/32) */
+85,		/* (7/32) */
+94,		/* (8/32) */
 104,	/* (9/32) */
 113,	/* (10/32) */
 122,	/* (11/32) */
 131,	/* (12/32) */
 140,	/* (13/32) */
 150,	/* (14/32) */
-159,	/* (15/32)  default(157,190cd)*/
-168,	/* (16/32) */
+159,	/* (15/32) */
+168,	/* (16/32) default(168,180CD)*/
 178,	/* (17/32) */
-183,	/* (18/32) */
+183,	/* (18/32)  */
 188,	/* (19/32) */
 194,	/* (20/32) */
 199,	/* (21/32) */
@@ -511,43 +510,7 @@ static const unsigned short Codina_ktd259CurrentRatioTable[2][33] = {
 236,	/* (29/32) */
 238,	/* (30/32) */
 240,	/* (31/32) */
-255	/* (32/32) */
-},
-{	/* FOR SHARP PANEL*/
-0,	/* (0/32)		KTD259_BACKLIGHT_OFF */
-30,	/* (1/32)		KTD259_MIN_CURRENT_RATIO */
-39,	/* (2/32) */
-48,	/* (3/32) */
-58,	/* (4/32) */
-67,	/* (5/32) */
-76,	/* (6/32) */
-85,	/* (7/32) */
-94,	/* (8/32) */
-104,	/* (9/32) */
-110,	/* (10/32) */
-117,	/* (11/32) */
-124,	/* (12/32) */
-131,	/* (13/32) */
-138,	/* (14/32) */
-145,	/* (15/32) */
-152,	/* (16/32) */
-159,	/* (17/32) default(157,190CD)*/
-166,	/* (18/32) */
-173,	/* (19/32) */
-180,	/* (20/32) */
-187,	/* (21/32) */
-194,	/* (22/32) */
-201,	/* (23/32) */
-208,	/* (24/32) */
-215,	/* (25/32) */
-222,	/* (26/32) */
-229,	/* (27/32) */
-233,	/* (28/32) */
-236,	/* (29/32) */
-238,	/* (30/32) */
-240,	/* (31/32) */
-255	/* (32/32) */
-},
+255	/* (32/32)	KTD259_MAX_CURRENT_RATIO */
 };
 
 static void print_vmode(struct device *dev, struct mcde_video_mode *vmode)
@@ -866,15 +829,9 @@ static int ws2401_update_brightness(struct ws2401_dpi *lcd)
 		mutex_lock(&lcd->lock);
 
 		for (newCurrentRatio = KTD259_MAX_CURRENT_RATIO; newCurrentRatio > KTD259_BACKLIGHT_OFF; newCurrentRatio--) {
-			if (lcd_type == 4/*SMD*/) {
-				if (brightness > Codina_ktd259CurrentRatioTable[0][newCurrentRatio - 1])
+			if (brightness > Codina_ktd259CurrentRatioTable[newCurrentRatio - 1])
 				break;
-			} else {	/*Sharp*/
-				if (brightness > Codina_ktd259CurrentRatioTable[1][newCurrentRatio - 1])
-				break;
-			}
 		}
-
 		dev_info(lcd->dev, "brightness=%d, new_bl=%d, old_bl=%d\n",
 				brightness, newCurrentRatio, currentRatio);
 
@@ -1167,10 +1124,7 @@ static ssize_t panel_type_show(struct device *dev,
 				struct device_attribute *attr,
 				char *buf)
 {
-	if (lcd_type == 4)
 		return sprintf(buf, "SMD_WS2401\n");
-	else
-		return sprintf(buf, "SHARP_S6D27A1X10\n");
 }
 static DEVICE_ATTR(panel_type, 0444, panel_type_show, NULL);
 

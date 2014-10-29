@@ -21,7 +21,7 @@
 #include <linux/jiffies.h>
 #include <linux/mutex.h>
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 #include <mach/sec_param.h>
 #include <mach/sec_common.h>
 #include <linux/reboot.h>
@@ -328,7 +328,7 @@ static int ab8500_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alarm)
 	return ab8500_rtc_irq_enable(dev, alarm->enabled);
 }
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 void check_alarm_boot_lpm(void)
 {
 	pr_info("[AB8500 rtc] %s\n", __func__);
@@ -354,7 +354,7 @@ static irqreturn_t rtc_alarm_handler(int irq, void *data)
 	dev_dbg(&rtc->dev, "%s\n", __func__);
 	rtc_update_irq(rtc, 1, events);
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 	if (sec_lpm_bootmode)
 		check_alarm_boot_lpm();
 #endif
@@ -449,7 +449,7 @@ static int __devinit ab8500_rtc_probe(struct platform_device *pdev)
 
 	_rtc = rtc;
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 	{
 		u8 rtc_status = 0;
 		struct rtc_wkalrm alarm_time;
@@ -507,7 +507,7 @@ static int __devexit ab8500_rtc_remove(struct platform_device *pdev)
 	int irq = platform_get_irq_byname(pdev, "ALARM");
 	int irq_60s = platform_get_irq_byname(pdev, "60S");
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 	int temp_param;
 	if (alarm_en_exit == 1) {
 		autoboot_alm.time.tm_min--;

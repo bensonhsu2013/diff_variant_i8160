@@ -296,15 +296,6 @@ static int common_receive(struct shrm_dev *shrm, void *data,
 		return ret;
 	}
 
-	if (l2_header == RPC_MESSAGING) {
-		/* Acquire wake lock so as to not suspend */
-		wake_lock_timeout(&shrm->rpc_wake_lock, 1 * HZ);
-	}
-	if (l2_header == SECURITY_MESSAGING) {
-		/* Acquire wake lock so as to not suspend */
-		wake_lock_timeout(&shrm->sec_wake_lock, 1 * HZ);
-	}
-
 	if (l2_header == ISI_MESSAGING) {
 #ifdef CONFIG_U8500_SHRM_SVNET
 		shrm->netdev_flag_up = 1;
@@ -779,11 +770,6 @@ static int shrm_probe(struct platform_device *pdev)
 	tasklet_init(&ipcdata_rcv_tasklet, do_ipcdata_rcv_tasklet, 0);
 	ipcctrl_rcv_tasklet.data = (unsigned long)shrm;
 #endif
-	wake_lock_init(&shrm->rpc_wake_lock, WAKE_LOCK_SUSPEND,
-			"u8500-shrm-rpc");
-	wake_lock_init(&shrm->sec_wake_lock, WAKE_LOCK_SUSPEND,
-			"u8500-shrm-sec");
-
 	platform_set_drvdata(pdev, shrm);
 
 	return err;

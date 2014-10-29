@@ -427,13 +427,6 @@ ssize_t isa_read(struct file *filp, char __user *buf, size_t len, loff_t *ppos)
 		msgsize = ret;
 	}
 	spin_unlock_bh(&q->update_lock);
-	/* if RPC, Security  msg read, then unlock the acquired lock */
-	if (isadev->device_id == RPC_MESSAGING)
-		wake_unlock(&shrm->rpc_wake_lock);
-
-	if (isadev->device_id == SECURITY_MESSAGING)
-		wake_unlock(&shrm->sec_wake_lock);
-
 	dev_dbg(shrm->dev, "%s OUT\n", __func__);
 	return msgsize;
 }
@@ -710,7 +703,7 @@ static int isa_open(struct inode *inode, struct file *filp)
 				(m != COMMON_LOOPBACK_MESSAGING) &&
 				(m != AUDIO_MESSAGING) &&
 				(m != SECURITY_MESSAGING) &&
-				(m != IPCCTRL) &&
+				(m != IPCCTRL) && 
 				(m != IPCDATA)) {
 		dev_err(shrm->dev, "No such device present\n");
 		mutex_unlock(&isa_lock);

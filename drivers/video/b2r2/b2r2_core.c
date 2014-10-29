@@ -2350,7 +2350,7 @@ static void exit_hw(void)
 
 #ifdef CONFIG_DEBUG_FS
 	/* Unregister our debugfs entries */
-	if (!IS_ERR_OR_NULL(b2r2_core.debugfs_regs_dir)) {
+	if (b2r2_core.debugfs_regs_dir) {
 		debugfs_remove_recursive(b2r2_core.debugfs_regs_dir);
 		b2r2_core.debugfs_regs_dir = NULL;
 	}

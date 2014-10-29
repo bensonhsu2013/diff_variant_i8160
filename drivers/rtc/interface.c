@@ -312,7 +312,7 @@ int rtc_set_alarm(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
 }
 EXPORT_SYMBOL_GPL(rtc_set_alarm);
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 int rtc_set_alarm_boot(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
 {
 	int err;

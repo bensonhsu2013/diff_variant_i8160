@@ -182,7 +182,8 @@ static __init int setup_boot_mode(char *opt)
 
 __setup("bootmode=", setup_boot_mode);
 
-#if defined(CONFIG_MACH_JANICE_CHN) || (CONFIG_MACH_GAVINI) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || (CONFIG_MACH_GAVINI) \
+	 || (CONFIG_MACH_GAVINI_CHN)
 u32 sec_lpm_bootmode;
 EXPORT_SYMBOL(sec_lpm_bootmode);
 

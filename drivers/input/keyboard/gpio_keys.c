@@ -375,7 +375,7 @@ out:
 }
 
 static DEVICE_ATTR(key_pressed, 0664, key_pressed_show, NULL);
-static DEVICE_ATTR(wakeup_keys, 0664, NULL, wakeup_enable);
+static DEVICE_ATTR(wakeup_keys, S_IWUSR, NULL, wakeup_enable);
 
 static struct attribute *gpio_keys_attrs[] = {
 	&dev_attr_keys.attr,

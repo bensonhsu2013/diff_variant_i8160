@@ -29,11 +29,6 @@
 
 #include "clock.h"
 
-#if defined(CONFIG_MACH_CODINA_CHN)
-#include <linux/rtc.h>
-extern struct rtc_wkalrm autoboot_alm;
-#endif
-
 void __iomem *gic_cpu_base_addr;
 void __iomem *_PRCMU_BASE;
 
@@ -95,7 +90,7 @@ void ux500_restart(char mode, const char *cmd)
 {
 	unsigned short reset_code;
 	int i ;
-	//printk("ux500_restart: Call arch_reset(), mode: %c, cmd: %s\n", mode, cmd );
+	printk("ux500_restart: Call arch_reset(), mode: %c, cmd: %s\n", mode, cmd );
 
 #ifdef CONFIG_SAMSUNG_KERNEL_DEBUG
 	if( 'L' == mode || 'U' == mode)
@@ -107,9 +102,6 @@ void ux500_restart(char mode, const char *cmd)
 	}
 #endif /*CONFIG_SAMSUNG_KERNEL_DEBUG*/
 
-#if defined(CONFIG_MACH_CODINA_CHN)
-if (autoboot_alm.enabled == 1)        //modify for gavini chn auto boot alarm     myeong 120525
-{
 	/*
 	 * Clean and disable cache, and turn off interrupts
 	 */
@@ -121,8 +113,7 @@ if (autoboot_alm.enabled == 1)        //modify for gavini chn auto boot alarm   
 	 * soft boot works.
 	 */
 	setup_mm_for_reboot(mode);
-}
-#endif
+
 	/*
 	 * Now call the architecture specific reboot code.
 	 */

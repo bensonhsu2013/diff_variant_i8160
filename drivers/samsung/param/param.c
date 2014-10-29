@@ -147,8 +147,8 @@ static void param_set_default(void)
 	param_status.param_int_list.param_list[9].value = REBOOT_MODE;
 	param_status.param_int_list.param_list[10].ident = __NATION_SEL;
 	param_status.param_int_list.param_list[10].value = NATION_SEL;
-	param_status.param_int_list.param_list[11].ident = __KERNEL_PANIC_FLAG;
-	param_status.param_int_list.param_list[11].value = KERNEL_PANIC_FLAG;
+	param_status.param_int_list.param_list[11].ident = __LANGUAGE_SEL;
+	param_status.param_int_list.param_list[11].value = LANGUAGE_SEL;
 	param_status.param_int_list.param_list[12].ident = __SET_DEFAULT_PARAM;
 	param_status.param_int_list.param_list[12].value = SET_DEFAULT_PARAM;
 	param_status.param_int_list.param_list[13].ident = __BATT_CAPACITY;
@@ -207,8 +207,8 @@ static void param_show_info(void)
 	klogi("  - 09. REBOOT_MODE  : %d", value);
 	get_param_value(__NATION_SEL, &value);
 	klogi("  - 10. NATION_SEL  : %d", value);
-	get_param_value(__KERNEL_PANIC_FLAG, &value);
-	klogi("  - 11. KERNEL_PANIC_FLAG  : %d", value);
+	get_param_value(__LANGUAGE_SEL, &value);
+	klogi("  - 11. LANGUAGE_SEL  : %d", value);
 	get_param_value(__SET_DEFAULT_PARAM, &value);
 	klogi("  - 12. SET_DEFAULT_PARAM  : %d", value);
 	get_param_value(__BATT_CAPACITY, &value);
@@ -307,7 +307,6 @@ static int param_write_proc_debug(struct file *file, const char *buffer,
 static int param_init(void)
 {
 	int ret;
-	int flag = KERNEL_PANIC_FLAG_OFF;
 
 #ifdef PARAM_USE_INIT_BUFFER
 	param_buf = kmalloc(PARAM_LEN, GFP_KERNEL);
@@ -362,7 +361,6 @@ static int param_init(void)
 
 	/* set the kernel default reboot mode to FORCED_REBOOT_MODE */
 	/* param_status.param_list[9].value = FORCED_REBOOT_MODE; */
-	set_param_value(__KERNEL_PANIC_FLAG, &flag);
 
 	sec_set_param_value = set_param_value;
 	sec_get_param_value = get_param_value;

@@ -54,11 +54,8 @@
 #define REBOOT_MODE_CP_CRASH		7
 #define REBOOT_MODE_PRERECOVERY		9
 
-/* KERNEL_PANIC_FLAG */
-#define KERNEL_PANIC_FLAG_OFF	0
-#define KERNEL_PANIC_FLAG_ON	1
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 extern u32 sec_lpm_bootmode;
 #endif
 

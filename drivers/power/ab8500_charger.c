@@ -614,11 +614,12 @@ static int ab8500_charger_detect_chargers(struct ab8500_charger *di)
 			 "Charging will be enabled\n");
 	case	EXTERNAL_USB_CHARGER:
 	case	EXTERNAL_DEDICATED_CHARGER:
+	case	EXTERNAL_CAR_KIT:
 		dev_info(di->dev,"TA is inserted\n");
 		wake_lock(&di->ab8500_vbus_wake_lock);
 		ab8500_enable_disable_sw_fallback(di, true);
 		di->cable_type = POWER_SUPPLY_TYPE_MAINS;
-		result = USB_PW_CONN ;
+		result = USB_PW_CONN ; 
 		break ;
 
 	case	EXTERNAL_JIG_USB_OFF:
@@ -627,22 +628,19 @@ static int ab8500_charger_detect_chargers(struct ab8500_charger *di)
 		dev_info(di->dev,"USB is inserted\n");
 		ab8500_enable_disable_sw_fallback(di, true);
 		di->cable_type = POWER_SUPPLY_TYPE_USB;
-		result = USB_PW_CONN ;
+		result = USB_PW_CONN ; 
 		break ;
 
-	case	EXTERNAL_CAR_KIT:
-	case	EXTERNAL_AV_CABLE:
 	case	EXTERNAL_JIG_UART_OFF:
 		if (vbus_state) {
 			wake_lock(&di->ab8500_vbus_wake_lock);
-			dev_info(di->dev, "Dock/JIG is inserted\n");
+			dev_info(di->dev,"JIG+VBUS cable is inserted\n");
 			ab8500_enable_disable_sw_fallback(di, true);
 			di->cable_type = POWER_SUPPLY_TYPE_MAINS;
 			result = USB_PW_CONN;
 		} else {
 			dev_info(di->dev,
-				 "Dock/JIG is inserted, "
-				 "but there is no VBUS\n");
+			 "JIG cable is inserted, but there is no VBUS\n");
 			ab8500_enable_disable_sw_fallback(di, false);
 			di->cable_type = POWER_SUPPLY_TYPE_BATTERY;
 			result = NO_PW_CONN;
@@ -652,6 +650,7 @@ static int ab8500_charger_detect_chargers(struct ab8500_charger *di)
 	case	EXTERNAL_USB_OTG:
 	case	EXTERNAL_DEVICE_UNKNOWN:
 	case	EXTERNAL_UART:
+	case	EXTERNAL_AV_CABLE:
 	case	EXTERNAL_PHONE_POWERED_DEVICE:
 	case	EXTERNAL_TTY:
 	case	EXTERNAL_AUDIO_1:

@@ -288,7 +288,7 @@ static ssize_t show_current_connection_log(unsigned long charger_event)
 {
 	int i ;
 	const char *string = NULL ;
-	
+
 	for (i = 0; i < ARRAY_SIZE(device_1_register_bits); i++) {
 		if ((charger_event & 0xFFFF) &
 		    device_1_register_bits[i].event) {
@@ -531,26 +531,26 @@ static unsigned long get_current_connection_mask(struct FSA9480_instance *instan
 		if (instance->current_switch->valid_registers[FSA9490_INTERRUPT_2_REGISTER])
 			read_FSA9480_register(instance, FSA9490_INTERRUPT_2_REGISTER, &c);
 
-		read_FSA9480_register(instance, FSA9490_DEVICE_TYPE_1_REGISTER, &c);
-		c &= instance->current_switch->valid_device_register_1_bits;
-		for (i = 0; i < ARRAY_SIZE(device_1_register_bits); i++) {
-			if (c & device_1_register_bits[i].mask) {
-				event |= device_1_register_bits[i].event;
-				event_found = 1;
-				break;
-			}
-		}
-		
-		if (!event_found) {
-			read_FSA9480_register(instance, FSA9490_DEVICE_TYPE_2_REGISTER, &c);
-			c &= instance->current_switch->valid_device_register_2_bits;
-			for (i = 0; i < ARRAY_SIZE(device_2_register_bits); i++) {
-				if (c & device_2_register_bits[i].mask) {
-					event |= device_2_register_bits[i].event;
+			read_FSA9480_register(instance, FSA9490_DEVICE_TYPE_1_REGISTER, &c);
+			c &= instance->current_switch->valid_device_register_1_bits;
+			for (i = 0; i < ARRAY_SIZE(device_1_register_bits); i++) {
+				if (c & device_1_register_bits[i].mask) {
+					event |= device_1_register_bits[i].event;
+					event_found = 1;
 					break;
 				}
 			}
-		}
+
+			if (!event_found) {
+				read_FSA9480_register(instance, FSA9490_DEVICE_TYPE_2_REGISTER, &c);
+				c &= instance->current_switch->valid_device_register_2_bits;
+				for (i = 0; i < ARRAY_SIZE(device_2_register_bits); i++) {
+					if (c & device_2_register_bits[i].mask) {
+						event |= device_2_register_bits[i].event;
+						break;
+					}
+				}
+			}
 			printk(KERN_INFO "fsa_device 1 or 2 reg : %#x\n", c);
 	}
 

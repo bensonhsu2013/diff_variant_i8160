@@ -1151,4 +1151,3 @@ config VIDEO_MEM2MEM_TESTDEV
 	  framework.
 
 endif # V4L_MEM2MEM_DRIVERS
-

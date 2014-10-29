@@ -503,9 +503,6 @@ static pin_cfg_t codina_r0_0_sdmmc_sleep[] = {
 
 	GPIO28_GPIO | PIN_SLPM_DIR_INPUT |
 		PIN_SLPM_WAKEUP_ENABLE | PIN_SLPM_PDIS_DISABLED,
-
-	GPIO87_GPIO | PIN_SLPM_OUTPUT_LOW |
-		PIN_SLPM_WAKEUP_ENABLE | PIN_SLPM_PDIS_DISABLED,
 };
 
 static pin_cfg_t codina_common_sleep_table[] = {
@@ -540,7 +537,7 @@ static pin_cfg_t codina_common_sleep_table[] = {
 	GPIO84_GPIO | PIN_INPUT_PULLDOWN,
 	GPIO85_GPIO | PIN_INPUT_PULLDOWN,
 /*	GPIO86_GPIO | PIN_OUTPUT_LOW, */ /* EN_GPS */
-/*	GPIO87_GPIO | PIN_OUTPUT_LOW, */ /* TXS0206-29_EN */
+	GPIO87_GPIO | PIN_OUTPUT_LOW,  /* TXS0206-29_EN */
 	GPIO88_GPIO | PIN_INPUT_PULLDOWN,  /* NC */
 	GPIO89_GPIO | PIN_INPUT_PULLDOWN,  /* NC */
 

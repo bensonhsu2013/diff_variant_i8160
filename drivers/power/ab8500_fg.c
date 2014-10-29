@@ -1120,7 +1120,7 @@ static int ab8500_fg_volt_to_resistance(struct ab8500_fg *di, int voltage)
 			n_v_chg_res_tbl_elements;
 	} else {
 #endif
-	tbl = di->bat->bat_type[di->bat->batt_id].v_to_res_tbl,
+		tbl = di->bat->bat_type[di->bat->batt_id].v_to_res_tbl,
 		tbl_size = di->bat->bat_type[di->bat->batt_id].
 			n_v_res_tbl_elements;
 #ifdef USE_COMPENSATING_VOLTAGE_SAMPLE_FOR_CHARGING
@@ -1143,7 +1143,7 @@ static int ab8500_fg_volt_to_resistance(struct ab8500_fg *di, int voltage)
 	} else if (i >= tbl_size) {
 		res = tbl[tbl_size-1].resistance +
 			di->bat->bat_type[di->bat->batt_id].line_impedance;
-	} else{
+	} else {
 #ifdef USE_COMPENSATING_VOLTAGE_SAMPLE_FOR_CHARGING
 		if (di->flags.charging) {
 			res = di->bat->bat_type[di->bat->batt_id].
@@ -1152,10 +1152,10 @@ static int ab8500_fg_volt_to_resistance(struct ab8500_fg *di, int voltage)
 				line_impedance;
 		} else {
 #endif
-		res = di->bat->bat_type[di->bat->batt_id].
-			battery_resistance +
-			di->bat->bat_type[di->bat->batt_id].
-			line_impedance;
+			res = di->bat->bat_type[di->bat->batt_id].
+				battery_resistance +
+				di->bat->bat_type[di->bat->batt_id].
+				line_impedance;
 #ifdef USE_COMPENSATING_VOLTAGE_SAMPLE_FOR_CHARGING
 		}
 #endif
@@ -2256,8 +2256,7 @@ static void ab8500_fg_algorithm(struct ab8500_fg *di)
 			di->gpadc_vbat_ideal,
 			di->smd_on,
 			di->max_cap_changed,
-			di->reenable_charing,
-			gpio_get_value(JACK_NINT_JANICE_R0_0));
+			di->reenable_charing);
 }
 
 /**

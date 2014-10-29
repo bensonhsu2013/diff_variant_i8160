@@ -64,7 +64,7 @@
 #define MELODY_MODE			1	/* set melody mode (sound -> 0, slient -> 1) */
 #define REBOOT_MODE			REBOOT_MODE_RECOVERY
 #define NATION_SEL			0	/* set nation specific configuration */
-#define KERNEL_PANIC_FLAG		KERNEL_PANIC_FLAG_OFF
+#define LANGUAGE_SEL			0
 #define SET_DEFAULT_PARAM		0	/* set default param */
 #define BATT_CAPACITY			0	/* set initial battery capacity */
 #define FLASH_LOCK_STATUS		FLASH_UNLOCK
@@ -103,7 +103,7 @@ typedef enum {
 	__MELODY_MODE,
 	__REBOOT_MODE,
 	__NATION_SEL,
-	__KERNEL_PANIC_FLAG,
+	__LANGUAGE_SEL,
 	__SET_DEFAULT_PARAM,
 	__BATT_CAPACITY,
 	__LOAD_KERNEL2,
@@ -160,7 +160,7 @@ typedef struct {
 extern void (*sec_set_param_value) (int idx, void *value);
 extern void (*sec_get_param_value) (int idx, void *value);
 
-#if defined(CONFIG_MACH_JANICE_CHN) || defined (CONFIG_MACH_CODINA_CHN) //curos_leetw_20120220 : Codina_CHN support power off alarm
+#if defined(CONFIG_MACH_JANICE_CHN) || defined(CONFIG_MACH_GAVINI_CHN)
 extern int alarm_en_exit;
 #endif
 

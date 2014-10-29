@@ -391,7 +391,14 @@ static void suspend(struct work_struct *work)
 	entry_event_num = current_event_num;
 	suspend_sys_sync_queue();
 /*	if (debug_mask & DEBUG_SUSPEND) { */
-		pr_info("suspend: enter suspend\n");
+		struct timespec ts;
+		struct rtc_time tm;
+		getnstimeofday(&ts);
+		rtc_time_to_tm(ts.tv_sec, &tm);
+		pr_info("suspend: enter suspend "
+			"(%d-%02d-%02d %02d:%02d:%02d.%09lu UTC)\n",
+			tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+			tm.tm_hour, tm.tm_min, tm.tm_sec, ts.tv_nsec);
 /*	} */
 	ret = pm_suspend(requested_suspend_state);
 
